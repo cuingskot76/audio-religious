@@ -3,7 +3,8 @@ import path from "path";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./uploads");
+    // cb(null, "./uploads");
+    cb(null, "../frontend/public/uploads");
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + file.originalname);
@@ -25,8 +26,8 @@ const fileFilter = (req, file, cb) => {
 
 export const upload = multer({
   storage,
-  limits: {
-    fileSize: 1024 * 1024 * 5,
-  },
+  // limits: {
+  //   fileSize: 1024 * 1024 * 5,
+  // },
   fileFilter,
 });

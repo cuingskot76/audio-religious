@@ -5,6 +5,7 @@ import db from "./config/db.js";
 
 import audioRoutes from "./routes/audios.js";
 import { upload } from "./config/multer.js";
+import * as mm from "music-metadata";
 
 const app = express();
 
@@ -14,12 +15,23 @@ app.use(express.json());
 // get audios
 app.use("/api/audios", audioRoutes);
 
-app.post("/", upload.single("file"), (req, res) => {
+app.post("/api/upload", upload.single("file"), (req, res) => {
   try {
     const file = req.file;
     console.log(file);
     if (!file) return res.status(400).json({ message: "No file uploaded" });
-    return res.status(200).json(file.filename);
+
+    mm.parseFile(req.file.path, { native: true })
+      .then((metadata) => {
+        const duration = metadata.format.duration;
+        const getFilename = file.filename;
+        return res.status(200).json({ getFilename, duration });
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+
+    // return res.status(200).json(file);
   } catch (error) {
     console.log(error);
   }
