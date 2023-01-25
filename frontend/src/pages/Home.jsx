@@ -1,55 +1,43 @@
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Avatar from "boring-avatars";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPauseCircle, faPlayCircle } from "@fortawesome/free-solid-svg-icons";
+import MusicPlayer from "../components/MusicPlayer";
+import { AuthContext } from "../hooks/UseContext";
 
 const Home = () => {
-  const [audios, setAudios] = useState([]);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [audioId, setAudioId] = useState(null);
+  const {
+    audios,
+    setAudios,
+    togglePlayPause,
+    audioId,
+    isPlaying,
+    musicPlayer,
+  } = useContext(AuthContext);
+  // console.log(isPlaying);
 
-  const audioPlayer = useRef();
-
-  useEffect(() => {
-    const getAllAudios = async () => {
-      try {
-        const res = await axios.get("http://localhost:8000/api/audios");
-        console.log(res?.data);
-        setAudios(res?.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getAllAudios();
-  }, []);
-
-  const togglePlayPause = async (currentAudio) => {
-    const audioTrack = `./public/uploads/${currentAudio.track}`;
-    const audio = new Audio(audioTrack);
-    // get audio id
-    setAudioId(currentAudio.id);
-
-    // const prevValue = isPlaying;
-    setIsPlaying((prevValue) => !prevValue);
-    if (!isPlaying) {
-      audio.play();
-      audioPlayer.current = audio;
+  const calculateTime = (time) => {
+    if (time >= 60) {
+      const minutes = Math.floor(time / 60);
+      const seconds = Math.floor(time % 60);
+      return `0${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
     } else {
-      audioPlayer.current.pause();
+      return `0:${time < 10 ? `0${time}` : time}`;
     }
+
+    // const minutes = Math.floor(time / 60);
+    // const returnedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
+    // const seconds = Math.floor(time * 60);
+    // const returnedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
+
+    // return `${returnedMinutes}:${returnedSeconds}`;
   };
 
-  const calculateTime = (secs) => {
-    const minutes = Math.floor(secs / 60);
-    const returnedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
-    const seconds = Math.floor(secs * 60);
-    const returnedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
-
-    return `${returnedMinutes}:${returnedSeconds}`;
-  };
+  // const x = audios[5]?.duration;
+  // console.log(calculateTime(x));
 
   return (
     <div>
@@ -89,6 +77,19 @@ const Home = () => {
             </div>
           ))
         )}
+        {musicPlayer
+          ? audios.map(
+              (audio) =>
+                audio.id === audioId && (
+                  // <MusicPlayer {...audio} playing={isPlaying} key={audio.id} />
+                  <MusicPlayer
+                    audio={audio}
+                    playing={isPlaying}
+                    key={audio.id}
+                  />
+                )
+            )
+          : null}
       </div>
       <Link to="/create">
         <button>Create</button>
