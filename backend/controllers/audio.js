@@ -10,6 +10,16 @@ export const getAudios = (req, res) => {
   });
 };
 
+// export const getAudiosTrending = (req, res) => {
+//   const q = "SELECT * FROM audios_trending ORDER BY views DESC LIMIT 10";
+
+//   db.query(q, (err, data) => {
+//     if (err) return res.json(err);
+//     return res.status(200).json(data);
+//   });
+
+// };
+
 export const getAudio = (req, res) => {};
 
 export const createAudio = (req, res) => {

@@ -85,39 +85,49 @@ const MusicPlayer = (audio) => {
   };
 
   return (
-    <div>
-      <div className="flex justify-between">
-        <div className="flex items-center">
+    <div className="fixed bottom-0 navbar w-full justify-center items-center">
+      <div className="flex justify-between py-3 px-[1rem] items-center">
+        <div className="flex items-center gap-5">
           <Avatar
             size={40}
-            name={audio.audio.artist}
+            // name={audio.audio.artist}
+            name={audio.audio.artist + audio.audio.title}
             variant="pixel"
             colors={["#FFAD08", "#EDD75A", "#73B06F", "#0C8F8F", "#405059"]}
           />
           <div className="flex flex-col">
-            <h2>{audio.audio.title}</h2>
-            <h3>{audio.audio.artist}</h3>
+            <h2 className="font-medium">
+              {audio.audio.title.length > 25
+                ? `${audio.audio.title.substring(0, 25)} ...`
+                : audio.audio.title}
+            </h2>
+            <h3 className="text-sm">{audio.audio.artist}</h3>
           </div>
-          <FontAwesomeIcon icon={faVolumeHigh} />
+          {/* <FontAwesomeIcon icon={faVolumeHigh} /> */}
         </div>
         <div className="flex gap-5">
-          <FontAwesomeIcon icon={faShuffle} />
-          <FontAwesomeIcon icon={faBackwardStep} onClick={prevAudio} />
-          {/* <FontAwesomeIcon icon={faPlayCircle} /> */}
+          {/* <FontAwesomeIcon icon={faShuffle} /> */}
           <FontAwesomeIcon
-            // icon={isPlaying ? faPauseCircle : faPlayCircle}
-            icon={audio.playing ? faPauseCircle : faPlayCircle}
-            // onClick={() => togglePlayPause(audio.audio)}
-            onClick={() => playPause()}
+            icon={faBackwardStep}
+            onClick={prevAudio}
+            className="text-xl"
           />
-          <FontAwesomeIcon icon={faForwardStep} onClick={nextAudio} />
-          <FontAwesomeIcon icon={faRepeat} />
+          <FontAwesomeIcon
+            icon={audio.playing ? faPauseCircle : faPlayCircle}
+            onClick={() => playPause()}
+            className="text-xl"
+          />
+          <FontAwesomeIcon
+            icon={faForwardStep}
+            onClick={nextAudio}
+            className="text-xl"
+          />
+          {/* <FontAwesomeIcon icon={faRepeat} /> */}
         </div>
       </div>
-      <div className="relative pt-1">
+      {/* <div className="relative pt-1">
         <p>{second < 10 ? `0:0${second}` : `0:${second}`}</p>
         <p>{duration < 60 ? `0:${duration}` : `0${duration / 60}:00`}</p>
-        {/* <p>progress : {progress}</p> */}
         <input
           type="range"
           className="form-range appearance-none w-full h-6 p-0 bg-transparent focus:outline-none focus:ring-0 focus:shadow-none"
@@ -127,7 +137,7 @@ const MusicPlayer = (audio) => {
           value={progress}
           onChange={handleSliderChange}
         />
-      </div>
+      </div> */}
     </div>
   );
 };

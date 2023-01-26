@@ -17,55 +17,68 @@ const Home = () => {
     isPlaying,
     musicPlayer,
   } = useContext(AuthContext);
-  // console.log(isPlaying);
-
-  const calculateTime = (time) => {
-    if (time >= 60) {
-      const minutes = Math.floor(time / 60);
-      const seconds = Math.floor(time % 60);
-      return `0${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
-    } else {
-      return `0:${time < 10 ? `0${time}` : time}`;
-    }
-
-    // const minutes = Math.floor(time / 60);
-    // const returnedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
-    // const seconds = Math.floor(time * 60);
-    // const returnedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
-
-    // return `${returnedMinutes}:${returnedSeconds}`;
-  };
-
-  // const x = audios[5]?.duration;
-  // console.log(calculateTime(x));
 
   return (
-    <div>
+    <div className=" my-10">
+      <h1 className=" px-[1rem] mb-5 font-medium text-xl ">
+        Recommendations 🔥
+      </h1>
       <div>
         {audios?.length === 0 ? (
           <h1>No audio</h1>
         ) : (
           audios.map((audio) => (
-            <div className="flex items-center mb-5 gap-5" key={audio.id}>
+            <div
+              className={`flex px-[1rem] py-3 items-center mb-2 gap-5 ${
+                audio.id === audioId && isPlaying ? "bg-[#F4F4F4]" : null
+              }`}
+              key={audio.id}
+            >
               <Avatar
-                size={40}
-                name={audio.artist}
+                size={70}
+                name={audio.artist + audio.title}
                 variant="pixel"
                 colors={["#FFAD08", "#EDD75A", "#73B06F", "#0C8F8F", "#405059"]}
               />
-              <div className="flex items-center gap-5">
+              <div className="flex items-center gap-5 justify-between w-full">
                 <div>
-                  <h2>
+                  <h2 className="font-medium">
                     {audio.title.length > 25
                       ? `${audio.title.substring(0, 25)} ...`
                       : audio.title}
                   </h2>
-                  <h3>{audio.artist}</h3>
-                  <p>{audio.genre}</p>
+                  <h3 className="text-sm text-[#494949] mb-1">
+                    {audio.artist}
+                  </h3>
+                  <div className="flex">
+                    <p
+                      className={`text-sm ${
+                        audio.genre?.toLowerCase() === "mood booster"
+                          ? "bg-[#DEE7E8] text-[#4CB9D1]"
+                          : null
+                      } ${
+                        audio.genre?.toLowerCase() === "percintaan"
+                          ? "bg-[#FFDDD2] text-[#FF8787]"
+                          : null
+                      } ${
+                        audio.genre?.toLowerCase() === "love"
+                          ? "bg-[#FFE1E1] text-[#F675A8]"
+                          : null
+                      }
+                  } ${
+                    audio.genre?.toLowerCase() === "comedy"
+                      ? "bg-[#EEF1FF] text-[#B1B2FF]"
+                      : null
+                  }
+                  py-1 px-2 rounded-md`}
+                    >
+                      {audio.genre}
+                    </p>
+                  </div>
                 </div>
 
                 <FontAwesomeIcon
-                  // icon={isPlaying ? faPauseCircle : faPlayCircle}
+                  className="text-2xl"
                   icon={
                     audioId === audio.id && isPlaying
                       ? faPauseCircle

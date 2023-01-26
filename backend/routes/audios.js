@@ -6,6 +6,7 @@ import { createAudio, getAudio, getAudios } from "../controllers/audio.js";
 const router = express.Router();
 
 router.get("/", getAudios);
+// router.get("/trending", getAudiosTrending);
 router.get("/:id", getAudio);
 router.post("/", createAudio);
 // router.post("/", multer().single("audio"), createAudio);

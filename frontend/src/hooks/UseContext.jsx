@@ -39,6 +39,21 @@ export const UseContextProvider = ({ children }) => {
     }
   };
 
+  const togglePlayPauseTrending = async (currentAudio) => {
+    const audio = new Audio(currentAudio.track);
+    // get audio id
+    setAudioId(currentAudio?.id);
+
+    setIsPlaying((prevValue) => !prevValue);
+    if (!isPlaying) {
+      audio.play();
+      audioPlayer.current = audio;
+      setMusicPlayer(true);
+    } else {
+      audioPlayer.current.pause();
+    }
+  };
+
   const nextAudio = () => {
     const currentAudioIndex = audios.findIndex((audio) => audio.id === audioId);
     const nextAudio = audios[currentAudioIndex + 1];
@@ -61,6 +76,7 @@ export const UseContextProvider = ({ children }) => {
         audios,
         setAudios,
         togglePlayPause,
+        togglePlayPauseTrending,
         isPlaying,
         setIsPlaying,
         audioId,
