@@ -4,7 +4,7 @@ import cors from "cors";
 import db from "./config/db.js";
 
 import audioRoutes from "./routes/audios.js";
-import { upload } from "./config/multer.js";
+import upload from "./config/multer.js";
 import * as mm from "music-metadata";
 
 const app = express();
@@ -32,43 +32,19 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
       });
 
     // return res.status(200).json(file);
+    // const file = req.file.path;
+    // const conf = cloudinary.config({
+    //   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    //   api_key: process.env.CLOUDINARY_API_KEY,
+    //   api_secret: process.env.CLOUDINARY_API_SECRET,
+    // });
+    // await conf.uploader?.upload(file, {
+    //   upload_preset: "audioReligious",
+    // });
   } catch (error) {
     console.log(error);
   }
 });
-// app.use("/api/uploads", express.static("uploads"));
-
-// import multer from "multer";
-// import path from "path";
-
-// const storage = multer.diskStorage({
-//   destination: (req, res, cb) => {
-//     cb(null, "./uploads");
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, new Date().toISOString() + file.originalname);
-//   },
-// });
-
-// const fileFilter = (req, file, cb) => {
-//   if (
-//     file.mimetype === "audio/mpeg" ||
-//     file.mimetype === "audio/wave" ||
-//     file.mimetype === "audio/wav" ||
-//     file.mimetype === "audio/mp3"
-//   ) {
-//     cb(null, true);
-//   } else {
-//     cb(null, false);
-//   }
-// };
-// const upload = multer({
-//   storage: storage,
-//   limits: {
-//     fileSize: 1024 * 1024 * 5,
-//   },
-//   fileFilter: fileFilter,
-// });
 
 app.listen(8000, () => {
   console.log("server is running on port 8000");

@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import Example from "./components/Navbar";
 import Navbar from "./components/Navbar";
 import BestAudio from "./pages/BestAudio";
 import Home from "./pages/Home";
@@ -7,7 +8,8 @@ import NewAudio from "./pages/NewAudio";
 const Layout = () => {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
+      <Example />
       <Outlet />
     </>
   );
